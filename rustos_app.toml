@@ -1,0 +1,6 @@
+id = "browser"
+name = "Browser"
+version = "1.0.0"
+entry_kind = "wasi_wasm"
+entry_path = "app.wasm"
+description = "Simple web browser for rustOS"

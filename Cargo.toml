@@ -1,0 +1,11 @@
+[package]
+name = "browser_rustos"
+version = "1.0.0"
+edition = "2021"
+authors = ["michelbr84"]
+license = "MIT"
+description = "Simple web browser for rustOS"
+
+[dependencies]
+# Using local rustos_sdk or publish to crates.io
+# For now, we'll implement HTTP manually to avoid dependency issues
