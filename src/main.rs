@@ -16,14 +16,39 @@ fn main() {
     println!("╚══════════════════════════════════════════════════════════════╝");
     println!();
 
-    // Default URL to fetch
-    let url = "https://httpbin.org/html";
+    // Read URL from config file (written by rustOS terminal's browse command)
+    let url = match fs::read_to_string("/url.txt") {
+        Ok(content) => {
+            let url = content.trim().to_string();
+            // Clear the file after reading
+            let _ = fs::remove_file("/url.txt");
+            url
+        }
+        Err(_) => {
+            println!("📖 Usage: In rustOS terminal, type:");
+            println!("   browse https://example.com");
+            println!();
+            println!("This will navigate to the specified URL.");
+            println!();
+            println!("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+            println!("🔖 Examples:");
+            println!("   browse https://www.google.com");
+            println!("   browse https://wikipedia.org");
+            println!("   browse https://httpbin.org/html");
+            return;
+        }
+    };
+
+    if url.is_empty() {
+        println!("❌ No URL provided. Use: browse <url>");
+        return;
+    }
 
     println!("📍 URL: {}", url);
     println!("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
     println!();
 
-    match http_get(url) {
+    match http_get(&url) {
         Ok(response) => {
             if let Some(err) = &response.error {
                 println!("❌ Error: {}", err);
